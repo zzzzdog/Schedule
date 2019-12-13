@@ -3,8 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://E:\ANDIRODtest\TimeManger\Calendar.iml" filepath="E:\ANDIRODtest\TimeManger\Calendar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TimeManger.iml" filepath="$PROJECT_DIR$/TimeManger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Schedule.iml" filepath="$PROJECT_DIR$/Schedule.iml" />
+      <module fileurl="file://D:\Android\project\Schedule\TimeManger.iml" filepath="D:\Android\project\Schedule\TimeManger.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\Android\project\Schedule\app\app.iml" filepath="D:\Android\project\Schedule\app\app.iml" />
     </modules>
   </component>
 </project>
