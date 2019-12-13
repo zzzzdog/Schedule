@@ -19,15 +19,9 @@
         android:background="@color/color_ffffff"
         android:layout_height="wrap_content">
     </com.wzh.calendar.view.DataView>
-    <TextView
-        android:id="@+id/info"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:lineSpacingExtra="3dp"
-        android:lineSpacingMultiplier="1.2"
-        android:gravity="center|left"
-        android:textSize="14sp"
-        android:textColor="@color/color_666666"
-        android:layout_height="wrap_content" />
+
+    <ListView
+        android:id="@+id/Thing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
 </LinearLayout>
