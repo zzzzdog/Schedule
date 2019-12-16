@@ -38,7 +38,7 @@ public class ScheduleDao {
     }
     public boolean delete(Schedule schedule)
     {
-        int deleteResult=db.delete("schedule","date=?",new String[]{schedule.getDate()+""});
+        int deleteResult=db.delete("schedule","id=?",new String[]{schedule.getId()+""});
         if(deleteResult==0)
         {
             return false;

@@ -1,10 +1,12 @@
 package com.wzh.calendar.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by DELL on 2019/12/11.
  */
 
-public class Schedule {
+public class Schedule implements Serializable{
     public String title;
     public String starttime;
     public String endtime;
