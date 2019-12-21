@@ -52,12 +52,14 @@ public class AddActivity extends Activity implements DataCallBack {
             edittext_scheduleTitle.setText(schedule.getTitle());
             edittext_schedulePlace.setText(schedule.getPlace());
             edittext_scheduleRemarks.setText(schedule.getRemarks());
-            text_scheduleStartTime.setText(schedule.getStarttime());
-            text_scheduleStopTime.setText(schedule.getEndtime());
+            String startTime=schedule.getStarttime();
+            String stopTime=schedule.getEndtime();
+            text_scheduleStartTime.setText("开始时间:"+startTime.substring(0,2)+"时"+startTime.substring(3,5)+"分");
+            text_scheduleStopTime.setText("结束时间:"+stopTime.substring(0,2)+"时"+stopTime.substring(3,5)+"分");
             if(schedule.getIsalarmclock()==1)
                 sw_isAlarmClock.setChecked(true);
-
-
+            else
+                sw_isAlarmClock.setChecked(false);
 
         }
         else{                                                               //进行添加操作，传入值为日期
@@ -66,16 +68,24 @@ public class AddActivity extends Activity implements DataCallBack {
             final Calendar c = Calendar.getInstance();
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
+            String h="";
+            String m="";
+            if(hour<10)
+                h="0"+String.valueOf(hour);
+            else
+                h=String.valueOf(hour);
+            if(minute<10)
+                m="0"+String.valueOf(minute);
+            else
+                m=String.valueOf(minute);
             //时间选择功能，用dialogfragment实现
-            text_scheduleStartTime.setText("开始时间:"+hour+"时"+minute+"分");
-
-
-            text_scheduleStopTime.setText("结束时间:"+hour+"时"+minute+"分");
-
-
+            text_scheduleStartTime.setText("开始时间:"+h+"时"+m+"分");
+            text_scheduleStopTime.setText("结束时间:"+h+"时"+m+"分");
 
 
         }
+
+        //修改开始时间
         text_scheduleStartTime.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 String temp=text_scheduleStartTime.getText().toString();
@@ -90,7 +100,7 @@ public class AddActivity extends Activity implements DataCallBack {
                 timePickerFragment.show(getFragmentManager(),"time_picker");
             }
         });
-
+        //修改结束时间
         text_scheduleStopTime.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 String temp=text_scheduleStopTime.getText().toString();
@@ -105,6 +115,8 @@ public class AddActivity extends Activity implements DataCallBack {
                 timePickerFragment2.show(getFragmentManager(),"time_picker2");
             }
         });
+
+        //确认按钮
         addConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,9 +125,37 @@ public class AddActivity extends Activity implements DataCallBack {
                 addSchedule.setTitle(edittext_scheduleTitle.getText().toString());
                 addSchedule.setPlace(edittext_schedulePlace.getText().toString());
                 addSchedule.setRemarks(edittext_scheduleRemarks.getText().toString());
-                addSchedule.setStarttime(text_scheduleStartTime.getText().toString());
-                addSchedule.setEndtime(text_scheduleStopTime.getText().toString());
-                int ischecked;
+
+                String h="";//临时变量，用于存储小时数
+                String m="";//临时变量，用于存储分钟数
+                String temp=text_scheduleStartTime.getText().toString();//开始时间
+                int hour=Integer.parseInt(temp.substring(temp.indexOf(":")+1,temp.indexOf("时",temp.indexOf("时")+1)));
+                if(hour<10)//若小时为个位数，
+                    h="0"+String.valueOf(hour);
+                else
+                    h=String.valueOf(hour);
+
+                int minute=Integer.parseInt(temp.substring(temp.indexOf("时",temp.indexOf("时")+1)+1,temp.indexOf("分")));
+                if(minute<10)
+                    m="0"+String.valueOf(minute);
+                else
+                    m= String.valueOf(minute);
+                addSchedule.setStarttime(h+":"+m);
+
+                temp=text_scheduleStopTime.getText().toString();//结束时间
+                hour=Integer.parseInt(temp.substring(temp.indexOf(":")+1,temp.indexOf("时",temp.indexOf("时")+1)));
+                if(hour<10)
+                    h="0"+String.valueOf(hour);
+                else
+                    h=String.valueOf(hour);
+                minute=Integer.parseInt(temp.substring(temp.indexOf("时",temp.indexOf("时")+1)+1,temp.indexOf("分")));
+                if(minute<10)
+                    m="0"+String.valueOf(minute);
+                else
+                    m= String.valueOf(minute);
+                addSchedule.setEndtime(h+":"+m);
+
+                int ischecked;//是否启用闹钟提醒
                 if(sw_isAlarmClock.isChecked())
                     ischecked=1;
                 else
@@ -124,10 +164,19 @@ public class AddActivity extends Activity implements DataCallBack {
 
                 SQLiteDatabase sqLiteDatabase= myOpenHelp.getReadableDatabase();
                 ScheduleDao scheduleDao=new ScheduleDao(sqLiteDatabase);
-                if(scheduleDao.insert(addSchedule))
-                    Log.i("isInserted","**** new schedule is inserted! ****");
-                else
-                    Log.i("isInserted","**** new schedule insertion fail! ****");
+                if("update".equals(getIntent().getStringExtra("type"))){
+                    addSchedule.setId(((Schedule) getIntent().getSerializableExtra("schedule")).getId());
+                    if(scheduleDao.update(addSchedule))
+                        Log.i("isInserted","**** schedule is updated! ****");
+                    else
+                        Log.i("isInserted","**** schedule update fail! ****");
+                }
+                else{
+                    if(scheduleDao.insert(addSchedule))
+                        Log.i("isInserted","**** new schedule is inserted! ****");
+                    else
+                        Log.i("isInserted","**** new schedule insertion fail! ****");
+                }
                 finish();
             }
         });
@@ -135,11 +184,10 @@ public class AddActivity extends Activity implements DataCallBack {
     }
 
 
+
     @Override
     public void getDataForStart(String Data){
-
         text_scheduleStartTime.setText("开始时间:"+Data);
-
     }
     @Override
     public void getDataForStop(String Data){
