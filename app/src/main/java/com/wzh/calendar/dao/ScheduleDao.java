@@ -79,6 +79,7 @@ public class ScheduleDao {
             schedule1.setPlace(cursor.getString(6));
             //schedule1.setRemarks(cursor.getString(7));
             schedule1.setDate(schedule.getDate());
+            //schedule1.setDate(cursor.getString(7));
             schedules.add(schedule1);
         }
         return schedules;

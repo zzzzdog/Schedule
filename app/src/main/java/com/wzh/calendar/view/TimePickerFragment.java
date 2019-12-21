@@ -41,7 +41,17 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         if(getActivity() instanceof DataCallBack){
             //将activity强转为DataCallBack
             DataCallBack dataCallBack = (DataCallBack) getActivity();
-            time =  hourOfDay + "时" + minute + "分";
+            String h="";
+            String m="";
+            if(hourOfDay<10)
+                h="0"+String.valueOf(hourOfDay);
+            else
+                h=String.valueOf(hourOfDay);
+            if(minute<10)
+                m="0"+String.valueOf(minute);
+            else
+                m=String.valueOf(minute);
+            time =  h + "时" + m + "分";
             //调用activity的getData方法将数据传回activity显示
             if(this.type.equals("1"))
                 dataCallBack.getDataForStart(time);
