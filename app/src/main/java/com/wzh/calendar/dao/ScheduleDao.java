@@ -3,11 +3,14 @@ package com.wzh.calendar.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.wzh.calendar.bean.Schedule;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by DELL on 2019/12/11.
@@ -67,15 +70,16 @@ public class ScheduleDao {
         while (cursor.moveToNext())
         {
             Schedule schedule1=new Schedule();
-            schedule.setId(cursor.getInt(0));
-            schedule.setTitle(cursor.getString(1));
-            schedule.setStarttime(cursor.getString(2));
-            schedule.setEndtime(cursor.getString(3));
-            schedule.setIsalarmclock(cursor.getInt(4));
-            schedule.setRemarks(cursor.getString(5));
-            schedule.setPlace(cursor.getString(6));
-            schedule.setRemarks(cursor.getString(7));
-            schedules.add(schedule);
+            schedule1.setId(cursor.getInt(0));
+            schedule1.setTitle(cursor.getString(1));
+            schedule1.setStarttime(cursor.getString(2));
+            schedule1.setEndtime(cursor.getString(3));
+            schedule1.setIsalarmclock(cursor.getInt(4));
+            schedule1.setRemarks(cursor.getString(5));
+            schedule1.setPlace(cursor.getString(6));
+            //schedule1.setRemarks(cursor.getString(7));
+            schedule1.setDate(schedule.getDate());
+            schedules.add(schedule1);
         }
         return schedules;
 
