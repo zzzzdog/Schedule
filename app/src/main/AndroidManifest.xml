@@ -17,6 +17,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddActivity"></activity>
+        <receiver android:name="com.wzh.calendar.Service.AlarmReceiver">
+            <intent-filter>
+                <action android:name="com.wzh.calendar.TIMER_ACTION" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.wzh.calendar;
+package com.wzh.calendar.view;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
