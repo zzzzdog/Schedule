@@ -37,6 +37,7 @@ public class AlarmTimerUtils {
         if(time>System.currentTimeMillis()) {
             Intent mytent = new Intent();
             mytent.setAction("com.wzh.calendar.TIMER_ACTION");
+            mytent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             String string = new Gson().toJson(schedule);
             //String string="dfsasadasdsadsadasda";
             //Bundle bundle=new Bundle();
@@ -47,11 +48,12 @@ public class AlarmTimerUtils {
             SharedPreferences sharedPreferences = context.getSharedPreferences("idclub", Context.MODE_PRIVATE);
             int alarmId = sharedPreferences.getInt("alarmId", 0);
             sharedPreferences.edit().putInt("alarmId", alarmId + 1).commit();
-            Log.i("zzz", String.valueOf(alarmId));
+            //Log.i("zzz", String.valueOf(alarmId));
             PendingIntent sender = PendingIntent.getBroadcast(context, alarmId, mytent, 0);
             AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
             alarm.set(AlarmManager.RTC_WAKEUP, time, sender);
+            Log.i("zzz", "test");
         }
     }
 }

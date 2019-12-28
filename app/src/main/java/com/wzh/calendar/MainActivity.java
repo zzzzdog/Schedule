@@ -69,7 +69,7 @@ public class MainActivity extends FragmentActivity {
                 schedule.setDate(date.date);
                 madata=scheduleDao.query(schedule);
                // Log.i("zzz", madata.get(0).getTitle());
-                Schedule schedule1=new Schedule();
+               /* Schedule schedule1=new Schedule();
                 schedule1.setDate(date.date);
                 schedule1.setTitle("吃饭");
                 schedule1.setPlace("食堂");
@@ -82,10 +82,10 @@ public class MainActivity extends FragmentActivity {
                 schedule2.setStarttime("21:48");
                 schedule2.setEndtime("18:00");
                 madata.set(0,schedule1);
-                madata.set(1,schedule2);
-                AlarmTimerUtils.setAlarmTimer(MainActivity.this,madata.get(0));
-                AlarmTimerUtils.setAlarmTimer(MainActivity.this,madata.get(1));
-                //showNotification(madata.get(0));
+                madata.set(1,schedule2);*/
+              //  AlarmTimerUtils.setAlarmTimer(MainActivity.this,madata.get(0));
+                //AlarmTimerUtils.setAlarmTimer(MainActivity.this,madata.get(1));
+               // showNotification(madata.get(0));
                 scheduleAdapter=new ScheduleAdapter(MainActivity.this, madata);
                 thinglist.setAdapter(scheduleAdapter);
                 final Intent myintent=new Intent();
@@ -97,6 +97,7 @@ public class MainActivity extends FragmentActivity {
                        myintent.putExtra("schedule", madata.get(i));
                        myintent.putExtra("type", "update");
                        startActivity(myintent);
+                      // finish();
                    }
                });
                imageButton.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +107,7 @@ public class MainActivity extends FragmentActivity {
                        myintent.putExtra("date",datev);
                        myintent.putExtra("type", "add");
                        startActivity(myintent);
+                      // finish();
                    }
                });
                thinglist.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -148,6 +150,12 @@ public class MainActivity extends FragmentActivity {
         switch (item.getItemId())
         {
             case R.id.change:
+                Intent myintent=new Intent();
+                myintent.setClass(MainActivity.this,AddActivity.class);
+                myintent.putExtra("schedule", madata.get(info.position));
+                myintent.putExtra("type", "update");
+                startActivity(myintent);
+                //finish();
                 Toast.makeText(MainActivity.this,"编辑",Toast.LENGTH_LONG).show();
                 break;
             case R.id.delete:

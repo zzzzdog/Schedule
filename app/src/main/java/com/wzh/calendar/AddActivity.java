@@ -1,6 +1,7 @@
 package com.wzh.calendar;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.wzh.calendar.bean.Schedule;
 import com.wzh.calendar.dao.DataCallBack;
 import com.wzh.calendar.dao.ScheduleDao;
+import com.wzh.calendar.utils.AlarmTimerUtils;
 import com.wzh.calendar.utils.MyOpenHelp;
 import com.wzh.calendar.view.TimePickerFragment;
 
@@ -167,17 +169,23 @@ public class AddActivity extends Activity implements DataCallBack {
                 ScheduleDao scheduleDao=new ScheduleDao(sqLiteDatabase);
                 if("update".equals(getIntent().getStringExtra("type"))){
                     addSchedule.setId(((Schedule) getIntent().getSerializableExtra("schedule")).getId());
-                    if(scheduleDao.update(addSchedule))
-                        Log.i("isInserted","**** schedule is updated! ****");
+                    if(scheduleDao.update(addSchedule)) {
+                        AlarmTimerUtils.setAlarmTimer(AddActivity.this, addSchedule);
+                        Log.i("isInserted", "**** schedule is updated! ****");
+                    }
                     else
                         Log.i("isInserted","**** schedule update fail! ****");
                 }
                 else{
-                    if(scheduleDao.insert(addSchedule))
-                        Log.i("isInserted","**** new schedule is inserted! ****");
+                    if(scheduleDao.insert(addSchedule)) {
+                        AlarmTimerUtils.setAlarmTimer(AddActivity.this, addSchedule);
+                        Log.i("isInserted", "**** new schedule is inserted! ****");
+                    }
                     else
                         Log.i("isInserted","**** new schedule insertion fail! ****");
                 }
+                Intent intent=new Intent(AddActivity.this,MainActivity.class);
+                startActivity(intent);
                 finish();
             }
         });

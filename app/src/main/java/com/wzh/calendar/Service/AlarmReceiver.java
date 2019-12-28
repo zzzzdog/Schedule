@@ -7,7 +7,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -39,16 +42,23 @@ public class AlarmReceiver extends BroadcastReceiver {
             Intent intent1 = new Intent(context, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent1, 0);
             NotificationManager manger = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-            Notification notification = new NotificationCompat.Builder(context)
-                    .setContentTitle(schedule.getTitle())//设置标题，必要
-                    .setContentText(schedule.getPlace())//设置内容，必要
-                    .setWhen(System.currentTimeMillis())//设置时间，默认设置，可以忽略
-                    .setSmallIcon(R.mipmap.ic_clendr_sch)//设置通知栏的小图标，必须设置
-                    .setAutoCancel(true)//设置自动删除，点击通知栏信息之后系统会自动将状态栏的通知删除，要与setContentIntent连用
-                    .setContentIntent(pendingIntent)//设置在通知栏中点击该信息之后的跳转，参数是一个pendingIntent
-                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_clendr_sch))
-                    .build();
-            manger.notify(NOTIFICATION_FLAG, notification);
+           Notification notification = new NotificationCompat.Builder(context)
+                        .setContentTitle(schedule.getTitle())//设置标题，必要
+                        .setContentText(schedule.getPlace())//设置内容，必要
+                        .setWhen(System.currentTimeMillis())//设置时间，默认设置，可以忽略
+                        .setSmallIcon(R.mipmap.ic_clendr_sch)//设置通知栏的小图标，必须设置
+                        .setAutoCancel(true)//设置自动删除，点击通知栏信息之后系统会自动将状态栏的通知删除，要与setContentIntent连用
+                        .setContentIntent(pendingIntent)//设置在通知栏中点击该信息之后的跳转，参数是一个pendingIntent
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_clendr_sch))
+                        .build();
+            Log.i("zzz", String.valueOf(schedule.getIsalarmclock()));
+            if(schedule.getIsalarmclock()==1)
+            {
+                //Log.i("zzz", String.valueOf(schedule.getIsalarmclock()));
+                Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                notification.sound = uri;
+            }
+            manger.notify(context.getSharedPreferences("idclub", Context.MODE_PRIVATE).getInt("alarmId", 0), notification);
         }
     }
 }
